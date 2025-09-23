@@ -21,8 +21,6 @@ const HotCollections = () => {
           new Promise(resolve => setTimeout(resolve, 1000))
         ]);
         
-        console.log("API Response:", response.data);
-        console.log("First collection:", response.data[0]);
         setCollections(response.data);
         setError(null);
         setLoading(false);
@@ -250,18 +248,16 @@ const HotCollections = () => {
                 {collections
                   .slice(currentIndex, currentIndex + itemsPerView)
                   .map((collection, index) => {
-                    console.log("Rendering collection:", collection);
                     return (
                       <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={collection.id || collection.nftId || index}>
                         <div className="nft_coll">
                           <div className="nft_wrap">
-                            <Link to={`/item-details/${collection.id || collection.nftId || index}`}>
+                            <Link to={`/item-details/${collection.nftId || collection.id || index}`}>
                               <img 
                                 src={collection.image || collection.nftImage || collection.img || nftImage} 
                                 className="lazy img-fluid" 
                                 alt={collection.title || collection.name || "NFT Collection"} 
                                 onError={(e) => {
-                                  console.log("Image failed to load:", e.target.src);
                                   e.target.src = nftImage;
                                 }}
                               />
@@ -274,7 +270,6 @@ const HotCollections = () => {
                                 src={collection.authorImage || collection.author?.image || collection.author?.img || AuthorImage} 
                                 alt={collection.authorName || collection.author?.name || "Author"} 
                                 onError={(e) => {
-                                  console.log("Author image failed to load:", e.target.src);
                                   e.target.src = AuthorImage;
                                 }}
                               />
