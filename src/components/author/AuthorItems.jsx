@@ -15,7 +15,7 @@ const AuthorItems = ({ authorId, authorNfts = [] }) => {
       try {
         setLoading(true);
         
-        // If NFTs are passed from parent, use them directly
+        
         if (authorNfts && authorNfts.length > 0) {
           console.log(`Using ${authorNfts.length} NFTs passed from parent for author ${authorId}`);
           console.log("Author NFTs from parent:", authorNfts);
@@ -24,16 +24,16 @@ const AuthorItems = ({ authorId, authorNfts = [] }) => {
           return;
         }
         
-        // Fallback: Fetch from multiple APIs to get comprehensive NFT data
+        
         const [newItemsResponse, hotCollectionsResponse] = await Promise.all([
           axios.get("https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems"),
           axios.get("https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections")
         ]);
         
-        // Combine all NFTs from different sources
+        
         const allNfts = [...newItemsResponse.data, ...hotCollectionsResponse.data];
         
-        // Filter items by authorId if provided
+        
         const filteredItems = authorId 
           ? allNfts.filter(item => 
               item.authorId === authorId || 
@@ -47,7 +47,7 @@ const AuthorItems = ({ authorId, authorNfts = [] }) => {
             )
           : allNfts;
         
-        // Remove duplicates based on NFT ID
+        
         const uniqueItems = filteredItems.filter((item, index, self) => 
           index === self.findIndex(t => 
             (t.nftId || t.id) === (item.nftId || item.id)
