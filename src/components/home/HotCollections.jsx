@@ -178,17 +178,17 @@ const HotCollections = () => {
   }
 
   return (
-    <section id="section-collections" className="no-bottom">
+    <section id="section-collections" className="no-bottom" data-aos="fade-up">
       <div className="container">
         <div className="row">
-          <div className="col-lg-12">
+          <div className="col-lg-12" data-aos="fade-up">
             <div className="text-center">
               <h2>Hot Collections</h2>
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
           
-          <div className="col-lg-12">
+          <div className="col-lg-12" data-aos="fade-up">
             <div className="position-relative">
               <button
                 className="carousel-arrow carousel-arrow-left"
@@ -248,15 +248,24 @@ const HotCollections = () => {
                 {collections
                   .slice(currentIndex, currentIndex + itemsPerView)
                   .map((collection, index) => {
+                    const generateDisplayNumber = (nftId) => {
+                      const num = parseInt(nftId) || 0;
+                      return (num % 1000) + 100;
+                    };
+
+                    const displayNumber = generateDisplayNumber(collection.nftId || collection.id || index);
+                    const title = collection.title || collection.name || "Collection Name";
+                    const displayTitle = `${title} #${displayNumber}`;
+
                     return (
-                      <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={collection.id || collection.nftId || index}>
+                      <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={collection.id || collection.nftId || index} data-aos="fade-up">
                         <div className="nft_coll">
                           <div className="nft_wrap">
                             <Link to={`/item-details/${collection.nftId || collection.id || index}`}>
                               <img 
                                 src={collection.image || collection.nftImage || collection.img || nftImage} 
                                 className="lazy img-fluid" 
-                                alt={collection.title || collection.name || "NFT Collection"} 
+                                alt={title} 
                                 onError={(e) => {
                                   e.target.src = nftImage;
                                 }}
@@ -278,7 +287,7 @@ const HotCollections = () => {
                           </div>
                           <div className="nft_coll_info">
                             <Link to="/explore">
-                              <h4>{collection.title || collection.name || "Collection Name"}</h4>
+                              <h4>{displayTitle}</h4>
                             </Link>
                             <span>{collection.erc || collection.ercType || "ERC-192"}</span>
                           </div>
