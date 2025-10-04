@@ -13,6 +13,7 @@ const AuthorItems = ({ authorId, authorNfts = [] }) => {
   useEffect(() => {
     const fetchAuthorItems = async () => {
       try {
+      
         setLoading(true);
         
         
